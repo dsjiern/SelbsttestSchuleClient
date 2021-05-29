@@ -44,6 +44,7 @@
             Beim Import werden neue Klassen und Schüler angelegt. Ist ein Schüler bereits in der Klasse enthalten (identifizierbar durch Name + E-Mail-Adresse),
             so wird dessen Geburtsdatum sowie Gruppenzugehörigkeit aktualisiert. <b>Es werden jedoch keine Schüler durch den Import gelöscht!</b>
           </p>
+          <p>Das Geburtsdatum ist optional und kann leer gelassen werden. Eine Gruppe muss jedoch zwingend angegeben werden, da an Schüler ohne Gruppenzugehörigkeit keine Bestätigung verschickt wird.</p>
         </v-col>
         <v-col
           cols="8"
@@ -121,6 +122,7 @@
             flat
             class="mt-6"
           >
+            <p>Einzelne Einträge/Felder können mit einem Klick darauf bearbeitet werden.</p>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
