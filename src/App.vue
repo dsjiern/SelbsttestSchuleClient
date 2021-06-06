@@ -34,7 +34,7 @@
         <v-card-text
           class="white--text text-center"
         >
-          Selbsttest-Schule &copy; 2021, v0.9.1, 29.05.2021
+          Selbsttest-Schule &copy; 2021, v0.9.2, 06.06.2021
         </v-card-text>
       </v-card>
     </v-footer>

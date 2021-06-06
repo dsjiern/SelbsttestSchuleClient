@@ -70,8 +70,8 @@
     <p>Weder die erstellten Bestätigungen, noch die verschickten E-Mails werden gespeichert.</p>
     <h2>Löschfristen</h2>
     <p>
-      Die im letzten Abschnitt genannten, unverschlüsslt gespeicherten Daten dienen zur Verifizierung durch externe Personen. Da ein Testergebnis eines Schnelltests lediglich 24 Stunden
-      gültig ist, werden diese Daten auch 24 Stunden - technisch bedingt bis zu 25 Stunden möglich - nach dem Testzeitpunkt gelöscht.
+      Die im letzten Abschnitt genannten, unverschlüsslt gespeicherten Daten dienen zur Verifizierung durch externe Personen. Da ein Testergebnis eines Schnelltests lediglich 60 Stunden
+      gültig ist, werden diese Daten auch 60 Stunden - technisch bedingt bis zu 61 Stunden möglich - nach dem Testzeitpunkt gelöscht.
     </p>
     <p>
       Löst eine Schule einen Zugang auf, so werden alle damit verbundenen Daten sofort gelöscht.
