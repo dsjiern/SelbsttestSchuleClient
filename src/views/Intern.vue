@@ -7,6 +7,7 @@
           <v-tab to="/intern/">Übersicht</v-tab>
           <v-tab to="/intern/schueler">Schüler</v-tab>
           <v-tab to="/intern/testergebnisse">Testergebnisse verschicken</v-tab>
+          <v-tab to="/intern/tests">ausgestellte Tests</v-tab>
         </v-tabs>
         <router-view />
       </v-card-text>

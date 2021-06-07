@@ -35,16 +35,24 @@
         <v-col
           cols="12"
         >
+          <h3>CSV-Datei</h3>
           <p>
             Sie haben hier die Möglichkeit, eine csv-Datei mit den Schülerdaten hochzuladen. Nutzen Sie als Basis hierfür die
             <a href="data:file/csv;base64,bmFtZTtlbWFpbDtnZWJ1cnRzZGF0dW07a2xhc3NlO2dydXBwZQ1CZWlzcGllbHNjaMO8bGVyO2VtYWlsQGV4YW1wbGUuY29tOzEuMS4yMDAxOzVhO0ENTWF4IE11c3Rlcm1hbm47bWF4QG11c3Rlcm1hbm4uZGU7Mi4yLjIwMDI7NWI7Qg==" target="_blank" download="schueler.csv">Beispieldatei</a>.
           </p>
           <p><b>Wichtig:</b> verändern Sie nicht die angegebenen Einträge in der Kopfzeile!</p>
+          <h3>ASV-BW</h3>
+          <p>
+            Alternativ können Sie hier auch ein Export-Format für ASV-BW herunterladen, um die Daten direkt aus ASV heraus exportieren zu können:
+            <a href="data:file/binary;base64,UEsDBBQACAgIALSJx1IAAAAAAAAAAAAAAAALAAAAT2JqZWN0bGlzdGUB9wII/XgBC2bgcY0I8A8KcfMP8nUM8S1hUE5J1cssTtIrLivQS8nPTczM0yvIz8rXc60oyC8qScsvyk0sCWZgyUvMTQ1mEA5OzshLzckpSS0uUQCyD+/JSS0KZuBJSi1OzihKzUwqzUsPZmAIZuAvriwuSc0NSc0tyEkEqgZapIbDomBUlUC7sjPzUoIZGF2DGbhTMouBBlSCbA9iYGBgBgkB7SrKLCjJzM/zC2bgSMvMSQVJA9msufkpqTlAq2SgViUlFqfqlVQWpOo5JRZnJjuVpqWBnMub61+Ume6ckZqcXVya6wM0l+GIz0GgdZy52AXzcwuKUouLQ4IZ2HMhhjgxdlfMmTrhtN9hAwHX5VPM1wYIagsEXXG9qveB/QBT4wLRJrYWbbE3c1I02Kw733D219iWrTjlLZhkLBfff37vtxkJ9o5quUfeFJ9LUjVUTdM1rDnLa5j38o3peZ676W7cj8Jlbv1ylgw7ZcmgUxBxVbg5s6vN+fGEw212B1cKn1Kaa7X0dGLk/YUhFh+/u2t1tzzaONGyNW7HQQvjkzER1507tXZOmZbHWZb2UylxoqjK1FTnxJPztdL3Wai9+Puxhev5ZvPSjJpHbO2mtbmbZHj3Ft7Y/NG58dRS9YWm3q3HHpvsPNvzPohPt1Yrd92R6BffZKzqOLcseVCc4nr+8fa0ty6TDm2Qqf9zsVdb975p7fVnGz7fLekKTDyh1sT1Vt1MNuOL8+uWfXl/0/TOzbh9f6a/V0S38a1PR2vCT6/cVVa6K/IqX/6btIuLvd3/aO+yTzj3KkdnCVdf0341vqa6/WnPWH0lZcW/rfR4f9Itw6BOwXLpguurD/+SFi0PyLed//He/63rlu6rOVq2u9nxa6/MtADrtTqnyxl3s7dUARNcSmJJIii+w1KLiiFJQyixoCAnMzkRlFJwiCYWZSbmlfgB9fMA9afmJaUCE3FyRjADUzEw0XMBE3VpTmIRUAKYuoAJLzG7JLMsM7WoJJSBoQoAuJxZI1BLBwiNw/Ry/AIAAPcCAABQSwECFAAUAAgICAC0icdSjcP0cvwCAAD3AgAACwAAAAAAAAAAAAAAAAAAAAAAT2JqZWN0bGlzdGVQSwUGAAAAAAEAAQA5AAAANQMAAAAA" target="_blank" download="schnelltest_schueler.exf">Export-Definition ASV-BW</a>.
+          </p>
+          <p>Bei der exportierten Datei können Sie auch noch eine weitere Spalte "gruppe" anlegen um die Gruppenzugehörigkeit während des Wechselunterrichts anzugeben.</p>
+          <h3>Anmerkungen</h3>
           <p>
             Beim Import werden neue Klassen und Schüler angelegt. Ist ein Schüler bereits in der Klasse enthalten (identifizierbar durch Name + E-Mail-Adresse),
             so wird dessen Geburtsdatum sowie Gruppenzugehörigkeit aktualisiert. <b>Es werden jedoch keine Schüler durch den Import gelöscht!</b>
           </p>
-          <p>Das Geburtsdatum ist optional und kann leer gelassen werden. Eine Gruppe muss jedoch zwingend angegeben werden, da an Schüler ohne Gruppenzugehörigkeit keine Bestätigung verschickt wird.</p>
+          <p>Das Geburtsdatum ist optional und kann leer gelassen werden.</p>
         </v-col>
         <v-col
           cols="8"
@@ -308,7 +316,7 @@ export default {
       return this.daten?.map(e => e.klasse) || []
     },
     csvklassen () {
-      return this.csvdata?.map(k => k.klasse)?.filter((val, i, arr) => arr.indexOf(val) === i)?.sort() || []
+      return this.csvdata?.map(k => k.klasse || k.Klasse)?.filter((val, i, arr) => arr.indexOf(val) === i)?.sort() || []
     }
   },
 
@@ -390,16 +398,16 @@ export default {
       })
 
       this.csvdata.forEach(p => {
-        const klasse = this.daten.find(k => k.klasse === p.klasse)
+        const klasse = this.daten.find(k => k.klasse === (p.klasse || p.Klasse))
 
         if (!klasse) return
 
-        const schueler = klasse.schueler.find(s => s.name === p.name && (s.email === p.email || !s.email))
+        const schueler = klasse.schueler.find(s => s.name === (p.name || p['Name mit Vornamen']) && (s.email === p.email || !s.email))
 
         if (!schueler) {
-          klasse.schueler.push({ name: p.name, email: p.email, geburtsdatum: p.geburtsdatum, gruppe: p.gruppe })
+          klasse.schueler.push({ name: p.name || p['Name mit Vornamen'], email: p.email, geburtsdatum: p.geburtsdatum || p.Geburtsdatum, gruppe: p.gruppe || '' })
         } else {
-          schueler.geburtsdatum = p.geburtsdatum
+          schueler.geburtsdatum = p.geburtsdatum || p.Geburtsdatum
           schueler.gruppe = p.gruppe
         }
 
@@ -438,7 +446,7 @@ export default {
         if (tmp.length === 0) {
           return this.$store.commit('OPEN_SNACKBAR', 'Keine Einträge in Datei!')
         }
-        if (tmp[0].name === undefined || tmp[0].email === undefined || tmp[0].geburtsdatum === undefined || tmp[0].klasse === undefined || tmp[0].gruppe === undefined) {
+        if ((tmp[0].name === undefined && tmp[0]['Name mit Vornamen'] === undefined) || tmp[0].email === undefined || (tmp[0].geburtsdatum === undefined && tmp[0].Geburtsdatum === undefined) || (tmp[0].klasse === undefined && tmp[0].Klasse === undefined)) {
           tmp = parse(e.target.result, {
             columns: true,
             skip_empty_lines: true,
@@ -449,7 +457,7 @@ export default {
         if (tmp.length === 0) {
           return this.$store.commit('OPEN_SNACKBAR', 'Keine Einträge in Datei!')
         }
-        if (tmp[0].name === undefined || tmp[0].email === undefined || tmp[0].geburtsdatum === undefined || tmp[0].klasse === undefined || tmp[0].gruppe === undefined) {
+        if ((tmp[0].name === undefined && tmp[0]['Name mit Vornamen'] === undefined) || tmp[0].email === undefined || (tmp[0].geburtsdatum === undefined && tmp[0].Geburtsdatum === undefined) || (tmp[0].klasse === undefined && tmp[0].Klasse === undefined)) {
           return this.$store.commit('OPEN_SNACKBAR', 'Kann Datei nicht lesen, falsche Spalten in Datei!')
         }
 

@@ -263,14 +263,14 @@ export default {
     groups () {
       return this.$store.getters.klassen
         .reduce((acc, curr) => {
-          acc.push(...(curr?.schueler?.map(s => s.gruppe) || []))
+          acc.push(...(curr?.schueler?.map(s => s.gruppe || '> keine Angabe <') || []))
           return acc
         }, [])
         .filter((value, index, self) => self.indexOf(value) === index)
         .sort()
     },
     classes () {
-      return this.$store.getters.klassen.filter(k => !!k?.schueler.find(s => !!this.gruppen.find(g => g === s.gruppe)))
+      return this.$store.getters.klassen.filter(k => !!k?.schueler.find(s => !!this.gruppen.find(g => g === s.gruppe || (g === '> keine Angabe <' && !s.gruppe))))
     },
     allpupils () {
       return this.classes
@@ -285,7 +285,7 @@ export default {
     pupils (klasse) {
       return this.$store.getters.klassen
         .find(k => k.klasse === klasse)?.schueler
-        ?.filter(s => !!this.gruppen.find(g => g === s.gruppe))
+        ?.filter(s => !!this.gruppen.find(g => g === s.gruppe || (g === '> keine Angabe <' && !s.gruppe)))
         ?.map(p => ({ ...p, id: klasse + p.name + p.email, klasse })) || []
     },
     addallschueler (klasse) {
